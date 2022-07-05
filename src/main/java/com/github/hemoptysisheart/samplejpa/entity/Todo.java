@@ -96,7 +96,7 @@ public class Todo {
   public String toString() {
     return new StringJoiner(", ", Todo.class.getSimpleName() + "[", "]")
         .add("id=" + this.id)
-        .add("user=" + this.user)
+        .add("user=(" + this.user.getId() + ", " + this.user.getName() + ")")
         .add("title='" + this.title + "'")
         .add("detail='" + this.detail + "'")
         .add("status=" + this.status)
