@@ -1,3 +1,18 @@
+spring:
+  datasource:
+    hikari:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      jdbc-url: jdbc:mysql://localhost/sample-jpa?connectionCollation=utf8mb4_unicode_ci&allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=Asia/Seoul
+      username: root
+      password: password
+  jpa:
+    open-in-view: false
+    show-sql: false
+
 logging:
   level:
-    root: info
+    root: warn
+    com.github.hemoptysisheart: info
+    org.hibernate.SQL: debug
+  pattern:
+    console: "%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(%p) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%t - %X]){faint} %clr(%logger){cyan} %clr(:){faint} %m%n%wEx"
