@@ -12,7 +12,7 @@ spring:
 logging:
   level:
     root: warn
-    com.github.hemoptysisheart: info
+    com.github.hemoptysisheart: debug
     org.hibernate.SQL: debug
   pattern:
     console: "%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(%p) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%t - %X]){faint} %clr(%logger){cyan} %clr(:){faint} %m%n%wEx"

@@ -25,7 +25,7 @@ class UserServiceImpl implements UserService {
   @Override
   public User create(@NotNull String name, @NotNull String bio) {
     User user = new User(name, bio);
-    user = this.repository.save(user);
+    user = this.repository.saveAndFlush(user);
     return user;
   }
 

@@ -31,7 +31,7 @@ class TodoServiceImpl implements TodoService {
       throw new IllegalArgumentException("can not create : todo=" + todo);
     }
 
-    return this.repository.save(todo);
+    return this.repository.saveAndFlush(todo);
   }
 
   @Override

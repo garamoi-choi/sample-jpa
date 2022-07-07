@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static java.util.Objects.requireNonNull;
 import static java.util.UUID.randomUUID;
@@ -42,5 +43,13 @@ class BusinessLogicServiceImpl implements BusinessLogicService {
 
     LOGGER.info("epic={}", epic);
     return epic;
+  }
+
+  @Override
+  public List<Todo> filterTodoWithUser(String filter) {
+    List<Todo> list = this.todoService.list().stream()
+        .filter(todo -> todo.matches(filter))
+        .collect(Collectors.toList());
+    return list;
   }
 }

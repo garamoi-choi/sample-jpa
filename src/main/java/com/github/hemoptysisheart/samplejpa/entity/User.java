@@ -1,5 +1,8 @@
 package com.github.hemoptysisheart.samplejpa.entity;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.persistence.*;
 import java.util.Objects;
 import java.util.StringJoiner;
@@ -10,6 +13,8 @@ import static java.util.Objects.requireNonNull;
 @Table(name = "user",
     uniqueConstraints = {@UniqueConstraint(name = "uq_user_name", columnNames = {"name"})})
 public class User {
+  private static final Logger LOGGER = LoggerFactory.getLogger(User.class);
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id", nullable = false, insertable = false, updatable = false)
@@ -45,6 +50,12 @@ public class User {
 
   public void setBio(String bio) {
     this.bio = requireNonNull(bio);
+  }
+
+  public boolean matches(String filter) {
+    boolean result = this.name.contains(filter) || this.bio.contains(filter);
+    LOGGER.trace("#matches : filter={}, this={}, result={}", filter, this, result);
+    return result;
   }
 
   @Override

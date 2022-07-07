@@ -1,5 +1,8 @@
 package com.github.hemoptysisheart.samplejpa.entity;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +17,8 @@ import static java.util.Objects.requireNonNull;
         @Index(name = "fk_todo_pk_status", columnList = "status ASC"),
         @Index(name = "fk_todo_parent_pk_todo", columnList = "parent ASC")})
 public class Todo {
+  private static final Logger LOGGER = LoggerFactory.getLogger(Todo.class);
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long id;
@@ -32,7 +37,7 @@ public class Todo {
   @JoinColumn(name = "parent", foreignKey = @ForeignKey(name = "fk_todo_parent_pk_todo"), referencedColumnName = "id")
   private Todo parent;
   @OneToMany(mappedBy = "parent", cascade = {CascadeType.ALL})
-  private final List<Todo> subTodos = new ArrayList<>();
+  private List<Todo> subTodos = new ArrayList<>();
 
   public Todo() { // JPA only
   }
@@ -101,6 +106,18 @@ public class Todo {
     this.subTodos.add(sub);
   }
 
+  public boolean matches(String filter) {
+    boolean result = false;
+
+    if (filter.startsWith("user:")) {
+      result = this.user.matches(filter.substring("user:".length()));
+    }
+    result = result || this.title.contains(filter) || this.detail.contains(filter);
+
+    LOGGER.trace("#matches : filter={}, this={}, result={}", filter, this, result);
+    return result;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -121,7 +138,7 @@ public class Todo {
   public String toString() {
     return new StringJoiner(", ", Todo.class.getSimpleName() + "[", "]")
         .add("id=" + this.id)
-        .add("user=(" + this.user.getId() + ", " + this.user.getName() + ")")
+        .add("user=" + this.user)
         .add("title='" + this.title + "'")
         .add("detail='" + this.detail + "'")
         .add("status=" + this.status)
