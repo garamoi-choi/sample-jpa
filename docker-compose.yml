@@ -1,0 +1,19 @@
+version: "3.5"
+services:
+  db:
+    image: "mysql:5.7.38"
+    container_name: db
+    command: |
+      --character-set-server=utf8mb4
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: mysql
+      MYSQL_USER: user
+      MYSQL_PASSWORD: user_password
+    volumes:
+      - ./db/sample-jpa.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./db/my.cnf:/etc/mysql/conf.d/my.cnf
+      - ./db/data:/var/lib/mysql
+      - ./db/log:/var/log/mysql
+    ports:
+      - "3306:3306"
